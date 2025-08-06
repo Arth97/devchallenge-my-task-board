@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
+/* === Variables de color y tipografía === */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Colores personalizados */
+  --color-light-blue: #F8FAFC;
+  --color-yellow: #F5D565;
+  --color-light-yellow: #F5E8D5;
+  --color-orange: #E9A23B;
+  --color-light-green: #A0ECB1;
+  --color-green: #32D657;
+  --color-light-red: #F7D4D3;
+  --color-red: #DD524C;
+  --color-gray-light: #E3E8EF;
+  --color-gray-medium: #97A3B6;
+  --color-blue: #3662E3;
+  --color-black-transparent: #00000033;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +28,46 @@
   }
 }
 
+/* Aplicar colores al body */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Tipografías personalizadas con Tailwind */
+@layer base {
+  h1.title {
+    font-size: 2.5rem; /* 40px */
+    font-weight: 400;  /* Regular */
+  }
+
+  p.description {
+    font-size: 1rem; /* 16px */
+    font-weight: 400;
+  }
+
+  p.description-light {
+    font-size: 1rem; /* 16px */
+    font-weight: 300;
+  }
+
+  h2.task-title {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;    /* Semibold */
+  }
+
+  button.task-button {
+    font-size: 1rem; /* 16px */
+    font-weight: 600;
+  }
+
+  button.button-text {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+  }
+
+  label.input-label {
+    font-size: 0.75rem; /* 12px */
+    font-weight: 500;
+  }
 }
