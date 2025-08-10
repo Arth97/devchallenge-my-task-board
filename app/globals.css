@@ -1,41 +1,38 @@
 @import "tailwindcss";
 
-/* === Variables de color y tipografía === */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* === Colores personalizados === */
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #171717;
 
-  /* Colores personalizados */
+  --color-orange: #E9A23B;
+  --color-blue: #3662E3;
   --color-light-blue: #F8FAFC;
   --color-yellow: #F5D565;
   --color-light-yellow: #F5E8D5;
-  --color-orange: #E9A23B;
-  --color-light-green: #A0ECB1;
   --color-green: #32D657;
-  --color-light-red: #F7D4D3;
+  --color-light-green: #A0ECB1;
   --color-red: #DD524C;
+  --color-light-red: #F7D4D3;
   --color-gray-light: #E3E8EF;
   --color-gray-medium: #97A3B6;
-  --color-blue: #3662E3;
   --color-black-transparent: #00000033;
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Dark mode (prefiere esquema oscuro) */
+/* @media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: #0a0a0a;
+    --color-foreground: #ededed;
   }
-}
-
-/* Aplicar colores al body */
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
+} */
 
 /* Tipografías personalizadas con Tailwind */
 @layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+
   h1.title {
     font-size: 2.5rem; /* 40px */
     font-weight: 400;  /* Regular */
@@ -43,7 +40,7 @@ body {
 
   p.description {
     font-size: 1rem; /* 16px */
-    font-weight: 400;
+    font-weight: 500;
   }
 
   p.description-light {
