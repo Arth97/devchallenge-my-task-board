@@ -1,3 +1,4 @@
+import Image from 'next/image';
 
 type TaskProps = {
   status: "progress" | "completed" | "wontdo" | "todo";
@@ -28,9 +29,9 @@ const Task = ({status, title}:TaskProps) => {
   }
   
   const statusEmoji = {
-    progress: "",
-    completed: "",
-    wontdo: "",
+    progress: "./Time_atack_duotone.svg",
+    completed: "./Done_round_duotone.svg",
+    wontdo: "./close_ring_duotone.svg",
     todo: "",
   }
 
@@ -41,7 +42,14 @@ const Task = ({status, title}:TaskProps) => {
       </div>
       <h2 className="task-title">{title}</h2>
       <div className={`size-11 rounded-xl ml-auto flex items-center justify-center ${taskBgStatus[status]}`}>
-        {statusEmoji[status]}
+      {statusEmoji[status] && (
+        <Image
+          src={statusEmoji[status]}
+          alt="Status"
+          width={24}
+          height={24}
+        />
+      )}
       </div>
     </div>
 	);
