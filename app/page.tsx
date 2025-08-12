@@ -1,8 +1,20 @@
+'use client'
+import { useEffect } from 'react'
 import Task from "@/components/Task";
 import Image from "next/image";
 
+
 export default function Home() {
 	let title = "Task";
+
+	useEffect (() => {
+		const fetchDataTest = async () => {
+			const response = await fetch("/api/boards/1")
+			console.log("response", response)
+		}
+
+		fetchDataTest()
+	},[])
 
 	return (
 		<main className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
