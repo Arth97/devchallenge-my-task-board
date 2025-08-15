@@ -9,8 +9,12 @@ export default function Home() {
 
 	useEffect (() => {
 		const fetchDataTest = async () => {
-			const response = await fetch("/api/boards/1")
-			console.log("response", response)
+			const response = await fetch("/api/boards", {
+				method: 'POST',
+				body: JSON.stringify({message: 'TEST'})
+			})
+			const data = await response.json()
+			console.log("response data", data)
 		}
 
 		fetchDataTest()
