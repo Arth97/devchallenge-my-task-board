@@ -7,11 +7,11 @@ export type Board = {
 
 export type Task = {
   id: string;
+  board_id: string;
   title: string;
   description?: string | null;
   icon?: string | null;
   status: 'In Progress' | 'Completed' | "Won't do" | null;
-  board_id: string;
   created_at: string;
 };
 

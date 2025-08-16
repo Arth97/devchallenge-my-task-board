@@ -1,9 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
 import { Board } from "@/lib/types";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function createDefaultBoard(): Promise<Board> {
-  const supabase = await createClient();
-
+export async function createDefaultBoard(supabase: SupabaseClient): Promise<Board> {
   const defaultBoard = {
     name: 'My Task Board',
     description: 'Task to keep organised',
@@ -20,8 +18,7 @@ export async function createDefaultBoard(): Promise<Board> {
   return data;
 }
 
-export async function getBoardById(id:string): Promise<Board | null> {
-  const supabase = await createClient();
+export async function getBoardById(supabase: SupabaseClient, id:string): Promise<Board | null> {
   const { data, error } = await supabase.from('Boards').select().eq('id', id).single();
   if (error) throw error;
   return data;
