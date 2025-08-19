@@ -11,7 +11,7 @@ export type Task = {
   title: string;
   description?: string | null;
   icon?: string | null;
-  status: 'In Progress' | 'Completed' | "Won't do" | null;
+  status: 'inprogress' | 'completed' | "wontdo" | null;
   created_at: string;
 };
 

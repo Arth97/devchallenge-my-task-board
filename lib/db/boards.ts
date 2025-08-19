@@ -6,15 +6,12 @@ export async function createDefaultBoard(supabase: SupabaseClient): Promise<Boar
     name: 'My Task Board',
     description: 'Task to keep organised',
   };
-
   const { data, error } = await supabase
     .from('Boards')
     .insert([defaultBoard])
     .select()
     .single();
-
   if (error) throw error;
-
   return data;
 }
 
