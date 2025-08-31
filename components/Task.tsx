@@ -1,55 +1,63 @@
 import Image from 'next/image';
+import { TaskType } from '@/lib/types';
+import { useEffect } from 'react';
 
 type TaskProps = {
-  status: "progress" | "completed" | "wontdo" | "todo";
-  title: string;
+  taskData: TaskType;
 }
 
-const Task = ({status, title}:TaskProps) => {
+const Task = ({taskData}:TaskProps) => {
+
+  useEffect(() => {
+    console.log("taskData", taskData)
+  }, [taskData])
 
   const taskBgStyle = {
-    progress: "bg-yellow",
+    inprogress: "bg-yellow",
     completed: "bg-light-green",
     wontdo: "bg-light-red",
     todo: "bg-gray-light",
   }
 
   const taskBgStatus = {
-    progress: "bg-orange",
+    inprogress: "bg-orange",
     completed: "bg-green",
     wontdo: "bg-red",
     todo: "bg-gray-light",
   }
 
   const taskEmoji = {
-    progress: "⏰",
+    inprogress: "⏰",
     completed: "🏋️",
     wontdo: "☕️",
     todo: "📚",
   }
   
   const statusEmoji = {
-    progress: "./Time_atack_duotone.svg",
+    inprogress: "./Time_atack_duotone.svg",
     completed: "./Done_round_duotone.svg",
     wontdo: "./close_ring_duotone.svg",
     todo: "",
   }
 
 	return (
-		<div className={`w-[555px] h-[75px] flex flex-row items-center gap-4 p-4 rounded-2xl ${taskBgStyle[status]}`}>      
+		<div className={`w-[555px] min-h-[75px] h-auto flex flex-row items-center gap-4 p-4 rounded-2xl ${taskBgStyle[taskData.status!]}`}>      
       <div className="size-11 rounded-xl flex items-center justify-center bg-background">
-        {taskEmoji[status]}
+        {taskEmoji[taskData.status!]}
       </div>
-      <h2 className="task-title">{title}</h2>
-      <div className={`size-11 rounded-xl ml-auto flex items-center justify-center ${taskBgStatus[status]}`}>
-      {statusEmoji[status] && (
-        <Image
-          src={statusEmoji[status]}
-          alt="Status"
-          width={24}
-          height={24}
-        />
-      )}
+      <div>
+        <h2 className="task-title">{taskData.title}</h2>
+        <p className="task-description">{taskData.description}</p>
+      </div>
+      <div className={`size-11 rounded-xl ml-auto flex items-center justify-center ${taskBgStatus[taskData.status!]}`}>
+        {statusEmoji[taskData.status!] && (
+          <Image
+            src={statusEmoji[taskData.status!]}
+            alt="Status"
+            width={24}
+            height={24}
+          />
+        )}
       </div>
     </div>
 	);
