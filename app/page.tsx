@@ -80,14 +80,14 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+		<main className="flex flex-col items-center min-h-screen gap-16 p-8 pb-20 justify-items-center sm:p-20">
 			<div className="max-w-[555px]">
-				<h1 className="title flex flex-row gap-3">
+				<h1 className="flex flex-row gap-3 title">
 						<Image src="Logo.svg" alt="Logo" width="50" height="50" />
 						My Task Board
 						<Image src="Edit_duotone.svg" alt="Pen" width="25" height="25" />
 					</h1>
-				<p className="description ml-16">Tasks to keep organised</p>
+				<p className="ml-16 description">Tasks to keep organised</p>
 				<div className="flex flex-col justify-center gap-5 mt-10">
 					{tasksData.map((task) => (
 						<div key={task.id} onClick={() => handleEditTask(task)}>
@@ -96,7 +96,7 @@ export default function Home() {
 					))}
 				</div>
 				<div onClick={handleAddTask} className={`w-[555px] h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
-					<div className="size-11 rounded-xl flex items-center justify-center bg-orange">
+					<div className="flex items-center justify-center size-11 rounded-xl bg-orange">
 						<Image
 							src={"./Add_round_duotone.svg"}
 							alt="Status"
@@ -116,6 +116,7 @@ export default function Home() {
 						setEditingTask(null);
 					}}
 					onSave={handleSaveTask}
+					onDelete={handleDeleteTask}
 				/>
 			)}
 		</main>

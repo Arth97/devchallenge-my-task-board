@@ -42,14 +42,14 @@ const Task = ({taskData}:TaskProps) => {
 
 	return (
 		<div className={`w-[555px] min-h-[75px] h-auto flex flex-row items-center gap-4 p-4 rounded-2xl ${taskBgStyle[taskData.status!]}`}>      
-      <div className="size-11 rounded-xl flex items-center justify-center bg-background">
+      <div className="flex items-center justify-center size-11 rounded-xl bg-background">
         {taskEmoji[taskData.status!]}
       </div>
       <div>
         <h2 className="task-title">{taskData.title}</h2>
         <p className="task-description">{taskData.description}</p>
       </div>
-      <div className={`size-11 rounded-xl ml-auto flex items-center justify-center ${taskBgStatus[taskData.status!]}`}>
+      <div className={`flex items-center justify-center ml-auto size-11 rounded-xl ${taskBgStatus[taskData.status!]}`}>
         {statusEmoji[taskData.status!] && (
           <Image
             src={statusEmoji[taskData.status!]}

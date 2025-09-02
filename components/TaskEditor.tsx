@@ -8,11 +8,12 @@ type TaskEditorProps = {
 	taskData?: Partial<TaskType>;
 	onClose: () => void;
 	onSave: (task: Partial<TaskType>) => void;
+	onDelete: (taskId: string) => void;
 }
 
 const emojis = ["👨🏻‍💻", "💬", "☕️", "🏋️", "📚", "⏰"];
 
-const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
+const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProps) => {
 	const [formData, setFormData] = useState<Partial<TaskType>>(taskData);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -23,6 +24,13 @@ const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
 		}));
 	};
 
+	const handleIconSelect = (emoji: string) => {
+		setFormData(prev => ({
+				...prev,
+				icon: emoji
+		}));
+	};
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		onSave(formData);
@@ -30,22 +38,22 @@ const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
 	};
 
 	return (
-		<div className="fixed inset-0 bg-black-transparent flex items-center justify-end z-50 p-4">
+		<div className="fixed inset-0 z-50 flex items-center justify-end p-4 bg-black-transparent">
 			{/* <div className={`w-[630px] h-[755px] flex flex-col items-start gap-5 p-5 rounded-xl bg-white`}> */}
 			<div className="w-[630px] h-full bg-white rounded-xl">
 				<div className="p-6">
-					<div className="flex justify-between items-center mb-6">
+					<div className="flex items-center justify-between mb-6">
 						<h2 className="text-xl font-semibold">
 							Task details
 						</h2>
-						<button onClick={onClose} className="cursor-pointer border-2 border-gray-light rounded-md p-1">
+						<button onClick={onClose} className="p-1 border-2 rounded-md cursor-pointer border-gray-light">
 							<Image src="./close_ring_duotone-1.svg" alt="Close" width={24} height={24} />
 						</button>
 					</div>
 					
 					<form onSubmit={handleSubmit} className="space-y-4">
 						<div> {/* TASK NAME */}
-							<label htmlFor="taskName" className="block text-sm text-gray-medium mb-1">
+							<label htmlFor="taskName" className="block mb-1 text-sm text-gray-medium">
 								Task name
 							</label>
 							<input
@@ -54,13 +62,13 @@ const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
 								type="text"
 								value={formData.title || ''}
 								onChange={handleChange}
-								className="w-full p-2 border-2 border-gray-light rounded-md"
+								className="w-full p-2 border-2 rounded-md border-gray-light"
 								required
 							/>
 						</div>
 						
 						<div> {/* DESCRIPTION */}
-							<label htmlFor="description" className="block text-sm text-gray-medium mb-1">
+							<label htmlFor="description" className="block mb-1 text-sm text-gray-medium">
 								Description
 							</label>
 							<textarea
@@ -69,24 +77,29 @@ const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
 								value={formData.description || ''}
 								onChange={handleChange}
 								rows={3}
-								className="w-full p-2 border-2 border-gray-light rounded-md"
+								className="w-full p-2 border-2 rounded-md border-gray-light"
 								placeholder="Enter a short description"
 							/>
 						</div>
 
 						<div> {/* ICON */}
-							<label htmlFor="description" className="block text-sm text-gray-medium mb-1">
+							<label htmlFor="description" className="block mb-1 text-sm text-gray-medium">
 								Icon
 							</label>
 							<div className="flex flex-row gap-2.5">
-								{emojis.map((e) => (
-									<TaskIcon emoji={e}/>
+								{emojis.map((emoji) => (
+									<TaskIcon 
+										key={emoji}
+										emoji={emoji}
+										onSelect={handleIconSelect}
+										isSelected={formData.icon === emoji}
+									/>
 								))}
 							</div>
 						</div>
 
 						<div> {/* STATUS */}
-							<label htmlFor="description" className="block text-sm text-gray-medium mb-1">
+							<label htmlFor="description" className="block mb-1 text-sm text-gray-medium">
 								Status
 							</label>
 							<div className="grid grid-cols-2 gap-2">
@@ -96,15 +109,11 @@ const TaskEditor = ({ taskData = {}, onClose, onSave }: TaskEditorProps) => {
 							</div>
 						</div>
 
-						<div className="flex justify-end space-x-3 pt-4">
-							<button type="button" onClick={null}
-								className="px-4 py-2 rounded-3xl text-gray-700 border hover:bg-gray-50"
-							>
+						<div className="flex justify-end pt-4 space-x-3">
+							<button type="button" onClick={onDelete} className="px-4 py-2 text-gray-700 border rounded-3xl hover:bg-gray-50">
 								Delete
 							</button>
-							<button type="submit"
-								className="px-4 py-2 rounded-3xl bg-blue-600 text-white hover:bg-blue-700"
-							>
+							<button type="submit" className="px-4 py-2 text-white bg-blue-600 rounded-3xl hover:bg-blue-700">
 								Save
 							</button>
 						</div>
