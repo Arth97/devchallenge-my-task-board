@@ -18,16 +18,21 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const { name, value } = e.target;
+		console.log("name", name)
+		console.log("value", value)
 		setFormData(prev => ({
 			...prev,
 			[name]: value
 		}));
+		console.log("")
+		console.log("formData", formData)
+		console.log("")
 	};
 
 	const handleIconSelect = (emoji: string) => {
 		setFormData(prev => ({
-				...prev,
-				icon: emoji
+			...prev,
+			icon: emoji
 		}));
 	};
 
@@ -57,8 +62,8 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 								Task name
 							</label>
 							<input
-								id="taskName"
-								name="taskName"
+								id="title"
+								name="title"
 								type="text"
 								value={formData.title || ''}
 								onChange={handleChange}
