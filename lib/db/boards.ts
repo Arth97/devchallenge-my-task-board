@@ -20,3 +20,15 @@ export async function getBoardById(supabase: SupabaseClient, id:string): Promise
   if (error) throw error;
   return data;
 }
+
+export async function updateBoard(supabase: SupabaseClient, id: string, board: BoardType) {
+  const { data, error } = await supabase.from('Boards').update(board).eq('id', id).select()
+  if (error) throw error;
+  return data
+}
+
+export async function deleteBoard(supabase: SupabaseClient, id: string) {
+  const { data, error } = await supabase.from('Boards').delete().eq('id', id).select()
+  if (error) throw error;
+  return data
+}

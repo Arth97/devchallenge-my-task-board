@@ -7,9 +7,7 @@ export async function POST() {
   let board = null;
   try {
     board = await createDefaultBoard(supabase);
-    console.log("board", board)
     const tasks = await createDefaultTasks(supabase, board.id);
-    console.log("tasks", tasks)
     return Response.json(tasks)
   } catch (error) {
     console.error('Error creating default board or tasks:', error);
@@ -23,12 +21,9 @@ export async function POST() {
         console.error('Failed to delete board after task creation failure:', deleteError);
     }
 
-    return Response.json(
-      {
-        message: 'Failed to create board and tasks',
-        error: (error as Error).message,
-      },
-      { status: 500 }
-    );
+    return Response.json({
+      message: 'Failed to create board and tasks',
+      error: (error as Error).message,
+    }, { status: 500 });
   }
 }

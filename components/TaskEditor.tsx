@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { TaskType } from '@/lib/types';
+import { Status, TaskType } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 import TaskIcon from './TaskIcon';
 import TaskStatus from './TaskStatus';
@@ -30,9 +30,18 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 	};
 
 	const handleIconSelect = (emoji: string) => {
+		console.log("emoji", emoji)
 		setFormData(prev => ({
 			...prev,
 			icon: emoji
+		}));
+	};
+
+	const handleStatusSelect = (status: Status) => {
+		console.log("status", status)
+		setFormData(prev => ({
+			...prev,
+			status: status
 		}));
 	};
 
@@ -108,14 +117,14 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 								Status
 							</label>
 							<div className="grid grid-cols-2 gap-2">
-								<TaskStatus title="In Progress" status="inprogress"/>
-								<TaskStatus title="Completed" status="completed"/>
-								<TaskStatus title="Wont Do" status="wontdo"/>
+								<TaskStatus handleStatusSelect={handleStatusSelect} title="In Progress" status={Status.IN_PROGRESS} />
+								<TaskStatus handleStatusSelect={handleStatusSelect} title="Completed" status={Status.COMPLETED} />
+								<TaskStatus handleStatusSelect={handleStatusSelect} title="Wont Do" status={Status.WONT_DO}/>
 							</div>
 						</div>
 
 						<div className="flex justify-end pt-4 space-x-3">
-							<button type="button" onClick={onDelete} className="px-4 py-2 text-gray-700 border rounded-3xl hover:bg-gray-50">
+							<button type="button" onClick={() => onDelete} className="px-4 py-2 text-gray-700 border rounded-3xl hover:bg-gray-50">
 								Delete
 							</button>
 							<button type="submit" className="px-4 py-2 text-white bg-blue-600 rounded-3xl hover:bg-blue-700">

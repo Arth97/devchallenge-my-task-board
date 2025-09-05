@@ -1,8 +1,10 @@
+import { Status } from '@/lib/types';
 import Image from 'next/image';
 
 type TaskProps = {
+  handleStatusSelect: (status: Status) => void;
   title: string;
-	status: 'inprogress' | 'completed' | "wontdo" | "todo";
+	status: Status;
 }
 
 const taskBgStatus = {
@@ -19,10 +21,11 @@ const statusEmoji = {
   todo: "",
 }
 
-const TaskIcon = ({title, status}:TaskProps) => {
+const TaskStatus = ({title, status, handleStatusSelect}:TaskProps) => {
 	return (
-		<div className={'w-[280px] h-[50px] flex flex-row justify-start items-center gap-3 p-0.5 rounded-2xl border-2 border-gray-light cursor-pointer'}>      
+		<div onClick={() => handleStatusSelect(status)} className={'w-[280px] h-[50px] flex flex-row justify-start items-center gap-3 p-0.5 rounded-2xl border-2 border-gray-light cursor-pointer'}>      
 			<div className={`size-11 rounded-xl flex items-center justify-center ${taskBgStatus[status]}`}>
+
         {statusEmoji[status] && (
           <Image
             src={statusEmoji[status]}
@@ -37,4 +40,4 @@ const TaskIcon = ({title, status}:TaskProps) => {
 	);
 }
 
-export default TaskIcon;
+export default TaskStatus;

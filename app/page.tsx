@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Task from "@/components/Task";
 import Image from "next/image";
-import { TaskType } from '@/lib/types';
+import { Status, TaskType } from '@/lib/types';
 import TaskEditor from '@/components/TaskEditor';
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
 	},[])
 
 	const handleAddTask = () => {
-		setEditingTask({ status: 'todo' });
+		setEditingTask({ status: Status.TODO });
 		setIsEditorOpen(true);
 	};
 
@@ -115,8 +115,8 @@ export default function Home() {
 						setIsEditorOpen(false);
 						setEditingTask(null);
 					}}
-					onSave={handleSaveTask}
-					onDelete={handleDeleteTask}
+					onSave={() => {handleSaveTask(editingTask)}}
+					onDelete={() => {handleDeleteTask(editingTask.id!)}}
 				/>
 			)}
 		</main>
