@@ -1,6 +1,5 @@
 import { updateTask, deleteTask } from "@/lib/db/tasks";
 import { createClient } from '@/utils/supabase/server';
-import { Truculenta } from "next/font/google";
 
 type Params = {
   params: Promise<{

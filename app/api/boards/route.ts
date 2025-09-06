@@ -10,16 +10,13 @@ export async function POST() {
     const tasks = await createDefaultTasks(supabase, board.id);
     return Response.json({
       success: true,
-      data: tasks
+      data: tasks,
+      boardId: board.id
     }, { status: 200 })
   } catch (error) {
     console.error('Error creating default board or tasks:', error);
     if (board?.id) {
-      const { error: deleteError } = await supabase
-        .from('Boards')
-        .delete()
-        .eq('id', board.id);
-
+      const { error: deleteError } = await supabase.from('Boards').delete().eq('id', board.id);
       if (deleteError)
         console.error('Failed to delete board after task creation failure:', deleteError);
     }

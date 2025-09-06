@@ -6,6 +6,7 @@ import { Status, TaskType } from '@/lib/types';
 import TaskEditor from '@/components/TaskEditor';
 
 export default function Home() {
+	const [currentBoardId, setCurrentBoardId] = useState<string>('');
 	const [tasksData, setTasksData] = useState<TaskType[]>([]);
 	const [isEditorOpen, setIsEditorOpen] = useState(false);
 	const [editingTask, setEditingTask] = useState<Partial<TaskType> | null>(null);
@@ -13,8 +14,8 @@ export default function Home() {
 	useEffect (() => {
 		const fetchDataTest = async () => {
 			const response = await fetch("/api/boards", { method: 'POST' })
-			const { data } = await response.json()
-			console.log("response data", data)
+			const { data, boardId } = await response.json()
+			setCurrentBoardId(boardId)
 			setTasksData(data)
 		}
 		fetchDataTest()
@@ -32,8 +33,10 @@ export default function Home() {
 
 	const handleSaveTask = async (taskData: Partial<TaskType>) => {
 		try {
-			const method = taskData.id ? 'PUT' : 'POST';
-			const endpoint = taskData.id ? `/api/tasks/${taskData.id}` : '/api/tasks';
+			const method = editingTask?.id ? 'PUT' : 'POST';
+			const endpoint = editingTask?.id ? `/api/tasks/${editingTask.id}` : '/api/tasks';
+
+			if (taskData.board_id == null) taskData.board_id = currentBoardId
 
 			const response = await fetch(endpoint, {
 				method,
@@ -43,13 +46,14 @@ export default function Home() {
 				body: JSON.stringify(taskData),
 			});
 
-			if (!response.ok) throw new Error('Failed to save task');
+			if (!response.ok) throw await response.json();
 
-			const updatedTask = await response.json();
+			const { data } = await response.json();
+			const updatedTask = data;
 
 			setTasksData(prev => {
-				if (taskData.id) {
-					return prev.map(t => t.id === taskData.id ? updatedTask : t);
+				if (editingTask?.id) {
+					return prev.map(t => t.id === updatedTask.id ? updatedTask : t);
 				} else {
 					return [...prev, updatedTask];
 				}
@@ -57,6 +61,7 @@ export default function Home() {
 
 			setIsEditorOpen(false);
 			setEditingTask(null);
+
 		} catch (error) {
 			console.error('Error saving task:', error);
 		}
@@ -68,7 +73,7 @@ export default function Home() {
 				method: 'DELETE',
 			});
 
-			if (!response.ok) throw new Error('Failed to delete task');
+			if (!response.ok) throw await response.json();
 
 			setTasksData(prev => prev.filter(t => t.id !== taskId));
 		} catch (error) {
@@ -86,10 +91,8 @@ export default function Home() {
 					</h1>
 				<p className="ml-16 description">Tasks to keep organised</p>
 				<div className="flex flex-col justify-center gap-5 mt-10">
-					{tasksData.map((task) => (
-						<div key={task.id} onClick={() => handleEditTask(task)}>
-							<Task taskData={task} />
-						</div>
+					{tasksData.map((task: TaskType, index: number) => (
+						<Task key={index} taskData={task} handleEditTask={handleEditTask} />
 					))}
 				</div>
 				<div onClick={handleAddTask} className={`w-[555px] h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
@@ -112,7 +115,7 @@ export default function Home() {
 						setIsEditorOpen(false);
 						setEditingTask(null);
 					}}
-					onSave={() => {handleSaveTask(editingTask)}}
+					onSave={handleSaveTask}
 					onDelete={() => {handleDeleteTask(editingTask.id!)}}
 				/>
 			)}

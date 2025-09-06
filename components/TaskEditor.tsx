@@ -18,19 +18,13 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const { name, value } = e.target;
-		console.log("name", name)
-		console.log("value", value)
 		setFormData(prev => ({
 			...prev,
 			[name]: value
 		}));
-		console.log("")
-		console.log("formData", formData)
-		console.log("")
 	};
 
 	const handleIconSelect = (emoji: string) => {
-		console.log("emoji", emoji)
 		setFormData(prev => ({
 			...prev,
 			icon: emoji
@@ -38,7 +32,6 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 	};
 
 	const handleStatusSelect = (status: Status) => {
-		console.log("status", status)
 		setFormData(prev => ({
 			...prev,
 			status: status
@@ -117,9 +110,9 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 								Status
 							</label>
 							<div className="grid grid-cols-2 gap-2">
-								<TaskStatus handleStatusSelect={handleStatusSelect} title="In Progress" status={Status.IN_PROGRESS} />
-								<TaskStatus handleStatusSelect={handleStatusSelect} title="Completed" status={Status.COMPLETED} />
-								<TaskStatus handleStatusSelect={handleStatusSelect} title="Wont Do" status={Status.WONT_DO}/>
+								<TaskStatus handleStatusSelect={handleStatusSelect} currentStatus={formData.status} title="In Progress" status={Status.IN_PROGRESS} />
+								<TaskStatus handleStatusSelect={handleStatusSelect} currentStatus={formData.status} title="Completed" status={Status.COMPLETED} />
+								<TaskStatus handleStatusSelect={handleStatusSelect} currentStatus={formData.status} title="Wont Do" status={Status.WONT_DO}/>
 							</div>
 						</div>
 

@@ -13,8 +13,14 @@ export async function createDefaultTasks(supabase: SupabaseClient, boardId: stri
   return data
 }
 
+export async function createTask(supabase: SupabaseClient, task: NewTask) {
+  const { data, error } = await supabase.from('Tasks').insert(task).select().single()
+  if (error) throw error;
+  return data
+}
+
 export async function updateTask(supabase: SupabaseClient, id: string, task: NewTask) {
-  const { data, error } = await supabase.from('Tasks').update(task).eq('id', id).select()
+  const { data, error } = await supabase.from('Tasks').update(task).eq('id', id).select().single()
   if (error) throw error;
   return data
 }
