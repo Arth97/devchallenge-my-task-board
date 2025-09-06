@@ -19,8 +19,8 @@ export async function updateTask(supabase: SupabaseClient, id: string, task: New
   return data
 }
 
-export async function deleteTaks(supabase: SupabaseClient, id: string) {
-  const { data, error } = await supabase.from('Tasks').delete().eq('id', id).select()
+export async function deleteTask(supabase: SupabaseClient, id: string) {
+  const { error } = await supabase.from('Tasks').delete().eq('id', id);
   if (error) throw error;
-  return data
+  return true;
 }

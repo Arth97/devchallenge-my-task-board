@@ -15,7 +15,10 @@ export async function GET(request: Request, { params }: Params) {
     if (!board)
       return Response.json({ message: 'Board not found' }, { status: 404 });
     
-    return Response.json(board);
+    return Response.json({
+      success: true,
+      data: board
+    }, { status: 200 });
   } catch (error) {
     console.error('Error getting board:', error);
     return Response.json(
@@ -31,7 +34,10 @@ export async function PUT(request: Request, { params }: Params) {
   const supabase = await createClient();
   try {
     const updatedBoard = await updateBoard(supabase, id, body);
-    return Response.json(updatedBoard);
+    return Response.json({
+      success: true,
+      data: updatedBoard
+    }, { status: 200 });
   } catch (error) {
     console.error('Error updating board:', error);
     return Response.json(
@@ -43,11 +49,15 @@ export async function PUT(request: Request, { params }: Params) {
  
 export async function DELETE(request: Request, { params }: Params) {
   const { id } = await params;
-  const body = await request.json();
   const supabase = await createClient();
   try {
-    const response = await deleteBoard(supabase, id)
-    return Response.json({ message: 'Board deleted successfully', data: response });
+    const success = await deleteBoard(supabase, id)
+    if (!success) throw new Error('Failed to delete board');
+    return Response.json({
+      success: success,
+      message: 'Board deleted successfully',
+      data: id
+    }, { status: 200 });
   } catch (error) {
     console.error('Error deleting board:', error);
     return Response.json(

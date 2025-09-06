@@ -6,11 +6,7 @@ export async function createDefaultBoard(supabase: SupabaseClient): Promise<Boar
     name: 'My Task Board',
     description: 'Task to keep organised',
   };
-  const { data, error } = await supabase
-    .from('Boards')
-    .insert([defaultBoard])
-    .select()
-    .single();
+  const { data, error } = await supabase.from('Boards').insert([defaultBoard]).select().single();
   if (error) throw error;
   return data;
 }
@@ -28,7 +24,7 @@ export async function updateBoard(supabase: SupabaseClient, id: string, board: B
 }
 
 export async function deleteBoard(supabase: SupabaseClient, id: string) {
-  const { data, error } = await supabase.from('Boards').delete().eq('id', id).select()
+  const { error } = await supabase.from('Boards').delete().eq('id', id);
   if (error) throw error;
-  return data
+  return true;
 }

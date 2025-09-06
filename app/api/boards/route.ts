@@ -8,7 +8,10 @@ export async function POST() {
   try {
     board = await createDefaultBoard(supabase);
     const tasks = await createDefaultTasks(supabase, board.id);
-    return Response.json(tasks)
+    return Response.json({
+      success: true,
+      data: tasks
+    }, { status: 200 })
   } catch (error) {
     console.error('Error creating default board or tasks:', error);
     if (board?.id) {

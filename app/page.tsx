@@ -12,11 +12,8 @@ export default function Home() {
 
 	useEffect (() => {
 		const fetchDataTest = async () => {
-			const response = await fetch("/api/boards", {
-				method: 'POST',
-				body: JSON.stringify({message: 'TEST'})
-			})
-			const data = await response.json()
+			const response = await fetch("/api/boards", { method: 'POST' })
+			const { data } = await response.json()
 			console.log("response data", data)
 			setTasksData(data)
 		}
