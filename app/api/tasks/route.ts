@@ -5,7 +5,6 @@ export async function POST(request: Request) {
 	const supabase = await createClient();
 	const body = await request.json();
 	try {
-		console.log("body", body)
 		const task = await createTask(supabase, body);
 		return Response.json({
 			success: true,

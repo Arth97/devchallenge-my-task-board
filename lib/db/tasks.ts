@@ -13,6 +13,12 @@ export async function createDefaultTasks(supabase: SupabaseClient, boardId: stri
   return data
 }
 
+export async function getTasksByBoardId(supabase: SupabaseClient, boardid: string) {
+  const { data, error } = await supabase.from('Tasks').select().eq('board_id', boardid)
+  if (error) throw error;
+  return data
+}
+
 export async function createTask(supabase: SupabaseClient, task: NewTask) {
   const { data, error } = await supabase.from('Tasks').insert(task).select().single()
   if (error) throw error;

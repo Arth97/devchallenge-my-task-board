@@ -1,17 +1,18 @@
 import { createClient } from '@/utils/supabase/server';
-import { createDefaultBoard } from '@/lib/db/boards';
+import { createDefaultBoard, preventOverPopulatedDatabase } from '@/lib/db/boards';
 import { createDefaultTasks } from '@/lib/db/tasks';
 
 export async function POST() {
   const supabase = await createClient();
   let board = null;
   try {
+    await preventOverPopulatedDatabase(supabase);
     board = await createDefaultBoard(supabase);
     const tasks = await createDefaultTasks(supabase, board.id);
     return Response.json({
       success: true,
-      data: tasks,
-      boardId: board.id
+      board: board,
+      tasks: tasks
     }, { status: 200 })
   } catch (error) {
     console.error('Error creating default board or tasks:', error);

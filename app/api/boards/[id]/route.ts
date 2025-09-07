@@ -1,4 +1,5 @@
 import { deleteBoard, getBoardById, updateBoard } from '@/lib/db/boards';
+import { getTasksByBoardId } from '@/lib/db/tasks';
 import { createClient } from '@/utils/supabase/server';
 
 type Params = {
@@ -14,10 +15,13 @@ export async function GET(request: Request, { params }: Params) {
     const board = await getBoardById(supabase, id);
     if (!board)
       return Response.json({ message: 'Board not found' }, { status: 404 });
+
+    const tasks = await getTasksByBoardId(supabase, id);
     
     return Response.json({
       success: true,
-      data: board
+      board: board,
+      tasks: tasks
     }, { status: 200 });
   } catch (error) {
     console.error('Error getting board:', error);

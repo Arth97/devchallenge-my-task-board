@@ -28,3 +28,13 @@ export async function deleteBoard(supabase: SupabaseClient, id: string) {
   if (error) throw error;
   return true;
 }
+
+export async function preventOverPopulatedDatabase(supabase: SupabaseClient) {
+  const { error: boardError } = await supabase.from('Boards').delete().gt('created_at', '2000-01-01')
+  if (boardError) throw boardError;
+
+  const { error: taskError } = await supabase.from('Tasks').delete().gt('created_at', '2000-01-01')
+  if (taskError) throw taskError;
+
+  return true;
+}

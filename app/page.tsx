@@ -2,23 +2,43 @@
 import { useEffect, useState } from 'react'
 import Task from "@/components/Task";
 import Image from "next/image";
-import { Status, TaskType } from '@/lib/types';
+import { BoardType, Status, TaskType } from '@/lib/types';
 import TaskEditor from '@/components/TaskEditor';
 
 export default function Home() {
 	const [currentBoardId, setCurrentBoardId] = useState<string>('');
+	const [boardData, setBoardData] = useState<BoardType | null>(null);
 	const [tasksData, setTasksData] = useState<TaskType[]>([]);
 	const [isEditorOpen, setIsEditorOpen] = useState(false);
 	const [editingTask, setEditingTask] = useState<Partial<TaskType> | null>(null);
 
 	useEffect (() => {
-		const fetchDataTest = async () => {
+		const generateDefaultData = async () => {
 			const response = await fetch("/api/boards", { method: 'POST' })
-			const { data, boardId } = await response.json()
-			setCurrentBoardId(boardId)
-			setTasksData(data)
+			return await response.json()
 		}
-		fetchDataTest()
+
+		const fetchData = async (storedBoardId: string) => {
+			const response = await fetch(`/api/boards/${storedBoardId}`, { method: 'GET' })
+			return await response.json()
+		}
+
+		const initzilizeData = async () => {
+			const storedBoardId = localStorage.getItem('boardId');
+
+			let data: { board: BoardType; tasks: TaskType[] };
+			if (storedBoardId)
+				data = await fetchData(storedBoardId)
+			else
+				data = await generateDefaultData()
+
+			localStorage.setItem('boardId', data.board.id);
+			setCurrentBoardId(data.board.id)
+			setBoardData(data.board)
+			setTasksData(data.tasks)
+		}
+
+		initzilizeData()
 	},[])
 
 	const handleAddTask = () => {
@@ -68,7 +88,6 @@ export default function Home() {
 	};
 
 	const handleDeleteTask = async (taskId: string) => {
-		console.log("tat", taskId)
 		if (!taskId) {
 			setIsEditorOpen(false);
 			setEditingTask(null);
@@ -94,10 +113,10 @@ export default function Home() {
 			<div className="max-w-[555px]">
 				<h1 className="flex flex-row gap-3 title">
 						<Image src="Logo.svg" alt="Logo" width="50" height="50" />
-						My Task Board
+						{boardData?.name}
 						<Image src="Edit_duotone.svg" alt="Pen" width="25" height="25" />
 					</h1>
-				<p className="ml-16 description">Tasks to keep organised</p>
+				<p className="ml-16 description">{boardData?.description}</p>
 				<div className="flex flex-col justify-center gap-5 mt-10">
 					{tasksData.map((task: TaskType, index: number) => (
 						<Task key={index} taskData={task} handleEditTask={handleEditTask} />
