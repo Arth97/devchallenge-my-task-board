@@ -54,7 +54,7 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 							Task details
 						</h2>
 						<button onClick={onClose} className="p-1 border-2 rounded-md cursor-pointer border-gray-light">
-							<Image src="./close_ring_duotone-1.svg" alt="Close" width={24} height={24} />
+							<Image src="close_ring_duotone-1.svg" alt="Close" width={24} height={24} />
 						</button>
 					</div>
 					
@@ -117,11 +117,13 @@ const TaskEditor = ({ taskData = {}, onClose, onSave, onDelete }: TaskEditorProp
 						</div>
 
 						<div className="flex justify-end pt-4 space-x-3">
-							<button type="button" onClick={() => onDelete} className="px-4 py-2 text-gray-700 border rounded-3xl hover:bg-gray-50">
+							<button type="button" onClick={() => onDelete(taskData.id!)} className="flex items-center gap-2 px-6 py-2 text-white bg-gray-medium rounded-3xl cursor-pointer">
 								Delete
+								<Image src="Trash.svg" alt="Trash" width={24} height={24} />
 							</button>
-							<button type="submit" className="px-4 py-2 text-white bg-blue-600 rounded-3xl hover:bg-blue-700">
+							<button type="submit" className="flex items-center gap-2 px-6 py-2 text-white bg-blue-600 rounded-3xl cursor-pointer">
 								Save
+								<Image src="Done_round.svg" alt="Done_check" width={24} height={24} />
 							</button>
 						</div>
 					</form>

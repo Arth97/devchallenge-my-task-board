@@ -68,6 +68,12 @@ export default function Home() {
 	};
 
 	const handleDeleteTask = async (taskId: string) => {
+		console.log("tat", taskId)
+		if (!taskId) {
+			setIsEditorOpen(false);
+			setEditingTask(null);
+			return;
+		}
 		try {
 			const response = await fetch(`/api/tasks/${taskId}`, {
 				method: 'DELETE',
@@ -76,6 +82,8 @@ export default function Home() {
 			if (!response.ok) throw await response.json();
 
 			setTasksData(prev => prev.filter(t => t.id !== taskId));
+			setIsEditorOpen(false);
+			setEditingTask(null);
 		} catch (error) {
 			console.error('Error deleting task:', error);
 		}
@@ -98,7 +106,7 @@ export default function Home() {
 				<div onClick={handleAddTask} className={`w-[555px] h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
 					<div className="flex items-center justify-center size-11 rounded-xl bg-orange">
 						<Image
-							src={"./Add_round_duotone.svg"}
+							src="Add_round_duotone.svg"
 							alt="Status"
 							width={24}
 							height={24}
@@ -116,7 +124,7 @@ export default function Home() {
 						setEditingTask(null);
 					}}
 					onSave={handleSaveTask}
-					onDelete={() => {handleDeleteTask(editingTask.id!)}}
+					onDelete={() => handleDeleteTask(editingTask.id!)}
 				/>
 			)}
 		</main>

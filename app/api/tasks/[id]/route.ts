@@ -32,6 +32,7 @@ export async function DELETE(request: Request, { params }: Params) {
 	try{
 		const succes = await deleteTask(supabase, id)
 		if (!succes) throw new Error('Failed to delete task');
+		console.log("test")
 		return Response.json({
 			success: succes,
 			message: 'Task deleted successfully',
