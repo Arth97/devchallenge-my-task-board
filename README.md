@@ -1,13 +1,13 @@
 
-<h1 align="center">My Task Board - WorldRanks | devChallenges</h1>
+<h1 align="center">My Task Board | devChallenges</h1>
 
 <div align="center">
-   Solution for a challenge <a href="https://devchallenges.io/challenge/my-task-board-app" target="_blank">My Task Board - WorldRanks</a> from <a href="http://devchallenges.io" target="_blank">devChallenges.io</a>.
+   Solution for a challenge <a href="https://devchallenges.io/challenge/my-task-board-app" target="_blank">My Task Board</a> from <a href="http://devchallenges.io" target="_blank">devChallenges.io</a>.
 </div>
 
 <div align="center">
   <h3>
-    <a href="https://arth97.github.io/devChallenge-country-page-worldRanks">
+    <a href="https://devchallenge-my-task-board.vercel.app">
       Demo
     </a>
     <span> | </span>
