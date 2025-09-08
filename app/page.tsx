@@ -110,7 +110,7 @@ export default function Home() {
 
 	return (
 		<main className="flex flex-col items-center min-h-screen gap-16 p-8 pb-20 justify-items-center sm:p-20">
-			<div className="max-w-[555px]">
+			<div className="sm-max-w-[555px] max-w-[400px]">
 				<h1 className="flex flex-row gap-3 title">
 						<Image src="Logo.svg" alt="Logo" width="50" height="50" />
 						{boardData?.name}
@@ -122,7 +122,7 @@ export default function Home() {
 						<Task key={index} taskData={task} handleEditTask={handleEditTask} />
 					))}
 				</div>
-				<div onClick={handleAddTask} className={`w-[555px] h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
+				<div onClick={handleAddTask} className={`sm-w-[555px] w-full h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
 					<div className="flex items-center justify-center size-11 rounded-xl bg-orange">
 						<Image
 							src="Add_round_duotone.svg"

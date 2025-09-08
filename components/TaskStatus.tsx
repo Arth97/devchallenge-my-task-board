@@ -24,7 +24,7 @@ const statusEmoji = {
 
 const TaskStatus = ({ currentStatus, title, status, handleStatusSelect }:TaskProps) => {
 	return (
-		<div onClick={() => handleStatusSelect(status)} className={`w-[280px] h-[50px] flex flex-row justify-start items-center gap-3 p-0.5 rounded-2xl cursor-pointer ${currentStatus === status ? 'border-2 border-blue' : 'border-2 border-gray-light'}`}>
+		<div onClick={() => handleStatusSelect(status)} className={`sm-w-[280px] w-[200px] h-[50px] flex flex-row justify-start items-center gap-3 p-0.5 rounded-2xl cursor-pointer ${currentStatus === status ? 'border-2 border-blue' : 'border-2 border-gray-light'}`}>
 			<div className={`size-11 rounded-xl flex items-center justify-center ${taskBgStatus[status]}`}>
         {statusEmoji[status] && (
           <Image
