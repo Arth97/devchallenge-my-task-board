@@ -37,7 +37,7 @@ const Task = ({taskData, handleEditTask}:TaskProps) => {
   }
 
 	return (
-		<div onClick={() => handleEditTask(taskData)} className={`sm-w-[555px] w-full min-h-[75px] h-auto flex flex-row items-center gap-4 p-4 rounded-2xl cursor-pointer transition-transform duration-200 hover:scale-102 ${taskBgStyle[taskData.status!]}`}>      
+		<div onClick={() => handleEditTask(taskData)} className={`sm:w-[555px] w-full min-h-[75px] h-auto flex flex-row items-center gap-4 p-4 rounded-2xl cursor-pointer transition-transform duration-200 hover:scale-102 ${taskBgStyle[taskData.status!]}`}>      
       <div className="flex items-center justify-center size-11 rounded-xl bg-background">
         {taskEmoji[taskData.status!]}
       </div>

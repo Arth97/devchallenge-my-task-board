@@ -15,22 +15,31 @@ export default function Home() {
 	useEffect (() => {
 		const generateDefaultData = async () => {
 			const response = await fetch("/api/boards", { method: 'POST' })
-			return await response.json()
+			return response;
 		}
 
 		const fetchData = async (storedBoardId: string) => {
 			const response = await fetch(`/api/boards/${storedBoardId}`, { method: 'GET' })
-			return await response.json()
+			return response;
 		}
 
 		const initzilizeData = async () => {
 			const storedBoardId = localStorage.getItem('boardId');
 
-			let data: { board: BoardType; tasks: TaskType[] };
-			if (storedBoardId)
-				data = await fetchData(storedBoardId)
-			else
-				data = await generateDefaultData()
+			let response: Response;
+			if (storedBoardId) {
+				response = await fetchData(storedBoardId)
+				if (!response.ok)
+					response = await generateDefaultData()
+			} else {
+				response = await generateDefaultData()
+			}
+
+			const data = await response.json()
+			if (!response.ok) {				
+				console.error("Error:", data.message)
+				return;
+			}
 
 			localStorage.setItem('boardId', data.board.id);
 			setCurrentBoardId(data.board.id)
@@ -110,7 +119,7 @@ export default function Home() {
 
 	return (
 		<main className="flex flex-col items-center min-h-screen gap-16 p-8 pb-20 justify-items-center sm:p-20">
-			<div className="sm-max-w-[555px] max-w-[400px]">
+			<div className="sm:max-w-[555px] max-w-[400px]">
 				<h1 className="flex flex-row gap-3 title">
 						<Image src="Logo.svg" alt="Logo" width="50" height="50" />
 						{boardData?.name}
@@ -122,7 +131,7 @@ export default function Home() {
 						<Task key={index} taskData={task} handleEditTask={handleEditTask} />
 					))}
 				</div>
-				<div onClick={handleAddTask} className={`sm-w-[555px] w-full h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
+				<div onClick={handleAddTask} className={`sm:w-[555px] w-full h-[75px] cursor-pointer flex flex-row items-center gap-4 p-4 mt-5 rounded-2xl bg-light-yellow`}>
 					<div className="flex items-center justify-center size-11 rounded-xl bg-orange">
 						<Image
 							src="Add_round_duotone.svg"

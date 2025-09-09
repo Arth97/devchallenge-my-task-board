@@ -19,11 +19,11 @@ export async function GET(request: Request, { params }: Params) {
     const tasks = await getTasksByBoardId(supabase, id);
     
     return Response.json({
-      success: true,
       board: board,
       tasks: tasks
     }, { status: 200 });
   } catch (error) {
+    console.log("TESTTEEERRRRR")
     console.error('Error getting board:', error);
     return Response.json(
       { message: 'Failed to get board', error: (error as Error).message },
@@ -39,7 +39,6 @@ export async function PUT(request: Request, { params }: Params) {
   try {
     const updatedBoard = await updateBoard(supabase, id, body);
     return Response.json({
-      success: true,
       data: updatedBoard
     }, { status: 200 });
   } catch (error) {
@@ -58,7 +57,6 @@ export async function DELETE(request: Request, { params }: Params) {
     const success = await deleteBoard(supabase, id)
     if (!success) throw new Error('Failed to delete board');
     return Response.json({
-      success: success,
       message: 'Board deleted successfully',
       data: id
     }, { status: 200 });

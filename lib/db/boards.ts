@@ -13,6 +13,7 @@ export async function createDefaultBoard(supabase: SupabaseClient): Promise<Boar
 
 export async function getBoardById(supabase: SupabaseClient, id:string): Promise<BoardType | null> {
   const { data, error } = await supabase.from('Boards').select().eq('id', id).single();
+  console.log("data", data)
   if (error) throw error;
   return data;
 }
